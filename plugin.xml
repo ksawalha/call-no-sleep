@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        id="call-no-sleep"
+        version="1.0.0">
+
+    <name>CallNoSleep</name>
+    <description>Cordova plugin to start a call, prevent screen from sleeping, and allow screen to sleep again.</description>
+    <license>MIT</license>
+    <keywords>cordova, plugin, call, no sleep</keywords>
+    <engines>
+        <engine name="cordova" version=">=9.0.0" />
+    </engines>
+
+    <platform name="android">
+        <source-file src="src/android/CallNoSleep.java" target-dir="src/com/example/callnosleep" />
+    </platform>
+
+    <platform name="ios">
+        <source-file src="src/ios/CallNoSleep.swift" />
+    </platform>
+
+    <js-module src="www/CallNoSleep.js" name="CallNoSleep">
+        <clobbers target="CallNoSleep" />
+    </js-module>
+
+    <config-file target="config.xml" parent="/*">
+        <feature name="CallNoSleep">
+            <param name="android-package" value="com.example.callnosleep.CallNoSleep" />
+            <param name="ios-package" value="CallNoSleep" />
+        </feature>
+    </config-file>
+</plugin>
