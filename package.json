@@ -1,0 +1,25 @@
+{
+  "name": "call-no-sleep",
+  "version": "1.0.0",
+  "description": "Cordova plugin to start a call, prevent screen from sleeping, and allow screen to sleep again.",
+  "cordova": {
+    "id": "call-no-sleep",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "keywords": [
+    "cordova",
+    "plugin",
+    "call",
+    "no sleep"
+  ],
+  "engines": {
+    "cordova": ">=9.0.0"
+  },
+  "dependencies": {
+    "cordova-android": "^9.0.0",
+    "cordova-ios": "^6.0.0"
+  }
+}
