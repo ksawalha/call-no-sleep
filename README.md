@@ -58,3 +58,17 @@ document.addEventListener('deviceready', function() {
     });
 });
 ```
+
+### Get App Info
+
+To get the app version number, version code, and package identifier, use the `getAppInfo` function:
+
+```javascript
+document.addEventListener('deviceready', function() {
+    CallNoSleep.getAppInfo(function(appInfo) {
+        console.log('App Info:', appInfo);
+    }, function(error) {
+        console.error('Error getting app info: ' + error);
+    });
+});
+```

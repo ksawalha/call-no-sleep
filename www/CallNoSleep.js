@@ -9,6 +9,9 @@ var CallNoSleep = {
     },
     allowSleep: function(successCallback, errorCallback) {
         exec(successCallback, errorCallback, 'CallNoSleep', 'allowSleep', []);
+    },
+    getAppInfo: function(successCallback, errorCallback) {
+        exec(successCallback, errorCallback, 'CallNoSleep', 'getAppInfo', []);
     }
 };
 
