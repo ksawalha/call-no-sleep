@@ -36,4 +36,16 @@ class CallNoSleep: CDVPlugin {
         UIApplication.shared.isIdleTimerDisabled = false
         self.commandDelegate.send(CDVPluginResult(status: .ok), callbackId: command.callbackId)
     }
+    
+    @objc(getAppInfo:)
+    func getAppInfo(command: CDVInvokedUrlCommand) {
+        let appInfo = [
+            "versionName": Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "",
+            "versionCode": Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "",
+            "packageName": Bundle.main.bundleIdentifier ?? ""
+        ]
+        
+        let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: appInfo)
+        self.commandDelegate.send(pluginResult, callbackId: command.callbackId)
+    }
 }

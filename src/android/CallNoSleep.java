@@ -2,12 +2,15 @@ package com.example.callnosleep;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.PowerManager;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 public class CallNoSleep extends CordovaPlugin {
 
@@ -28,6 +31,9 @@ public class CallNoSleep extends CordovaPlugin {
             this.allowSleep();
             callbackContext.success();
             return true;
+        } else if (action.equals("getAppInfo")) {
+            this.getAppInfo(callbackContext);
+            return true;
         }
         return false;
     }
@@ -47,6 +53,25 @@ public class CallNoSleep extends CordovaPlugin {
     private void allowSleep() {
         if (wakeLock != null && wakeLock.isHeld()) {
             wakeLock.release();
+        }
+    }
+
+    private void getAppInfo(CallbackContext callbackContext) {
+        try {
+            Context context = this.cordova.getActivity().getApplicationContext();
+            PackageManager packageManager = context.getPackageManager();
+            PackageInfo packageInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
+
+            JSONObject appInfo = new JSONObject();
+            appInfo.put("versionName", packageInfo.versionName);
+            appInfo.put("versionCode", packageInfo.versionCode);
+            appInfo.put("packageName", context.getPackageName());
+
+            callbackContext.success(appInfo);
+        } catch (PackageManager.NameNotFoundException e) {
+            callbackContext.error("Failed to get app info: " + e.getMessage());
+        } catch (JSONException e) {
+            callbackContext.error("Failed to create JSON object: " + e.getMessage());
         }
     }
 }
