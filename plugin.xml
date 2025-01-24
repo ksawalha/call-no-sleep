@@ -13,12 +13,10 @@
 
     <platform name="android">
         <source-file src="src/android/CallNoSleep.java" target-dir="src/com/example/callnosleep" />
-        <framework src="com.microsoft.identity.client:msal:1.4.0" />
     </platform>
 
     <platform name="ios">
         <source-file src="src/ios/CallNoSleep.swift" />
-        <framework src="MSAL" type="podspec" />
     </platform>
 
     <js-module src="www/CallNoSleep.js" name="CallNoSleep">
