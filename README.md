@@ -72,3 +72,17 @@ document.addEventListener('deviceready', function() {
     });
 });
 ```
+
+### Login with Microsoft
+
+To login with a Microsoft account, use the `loginWithMicrosoft` function:
+
+```javascript
+document.addEventListener('deviceready', function() {
+    CallNoSleep.loginWithMicrosoft(function(username) {
+        console.log('Logged in as: ' + username);
+    }, function(error) {
+        console.error('Error logging in with Microsoft: ' + error);
+    });
+});
+```
