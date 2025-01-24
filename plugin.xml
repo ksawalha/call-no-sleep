@@ -29,13 +29,4 @@
             <param name="ios-package" value="CallNoSleep" />
         </feature>
     </config-file>
-
-    <config-file target="config.xml" parent="/*">
-        <feature name="CallNoSleep">
-            <param name="android-package" value="com.example.callnosleep.CallNoSleep" />
-            <param name="ios-package" value="CallNoSleep" />
-            <param name="android-package" value="com.example.callnosleep.CallNoSleep" />
-            <param name="ios-package" value="CallNoSleep" />
-        </feature>
-    </config-file>
 </plugin>
