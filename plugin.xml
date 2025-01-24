@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         id="call-no-sleep"
-        version="1.0.0">
+        version="1.1.0">
 
     <name>CallNoSleep</name>
     <description>Cordova plugin to start a call, prevent screen from sleeping, and allow screen to sleep again.</description>
@@ -13,10 +13,12 @@
 
     <platform name="android">
         <source-file src="src/android/CallNoSleep.java" target-dir="src/com/example/callnosleep" />
+        <framework src="com.microsoft.identity.client:msal:1.4.0" />
     </platform>
 
     <platform name="ios">
         <source-file src="src/ios/CallNoSleep.swift" />
+        <framework src="MSAL" type="podspec" />
     </platform>
 
     <js-module src="www/CallNoSleep.js" name="CallNoSleep">
