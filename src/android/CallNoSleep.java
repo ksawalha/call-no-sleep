@@ -6,6 +6,10 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.PowerManager;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
 import org.json.JSONArray;
@@ -15,6 +19,7 @@ import org.json.JSONObject;
 public class CallNoSleep extends CordovaPlugin {
 
     private PowerManager.WakeLock wakeLock;
+    private static final int REQUEST_CALL_PHONE = 1;
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -36,13 +41,18 @@ public class CallNoSleep extends CordovaPlugin {
     }
 
     private void startCall(String phoneNumber, CallbackContext callbackContext) {
-        try {
-            Intent intent = new Intent(Intent.ACTION_CALL);
-            intent.setData(Uri.parse("tel:" + phoneNumber));
-            this.cordova.getActivity().startActivity(intent);
-            callbackContext.success();
-        } catch (Exception e) {
-            callbackContext.error("Failed to start call: " + e.getMessage());
+        if (ContextCompat.checkSelfPermission(this.cordova.getActivity(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this.cordova.getActivity(), new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL_PHONE);
+            callbackContext.error("CALL_PHONE permission not granted");
+        } else {
+            try {
+                Intent intent = new Intent(Intent.ACTION_CALL);
+                intent.setData(Uri.parse("tel:" + phoneNumber));
+                this.cordova.getActivity().startActivity(intent);
+                callbackContext.success();
+            } catch (Exception e) {
+                callbackContext.error("Failed to start call: " + e.getMessage());
+            }
         }
     }
 
