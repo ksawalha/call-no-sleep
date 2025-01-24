@@ -12,13 +12,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-// Import MSAL library
-import com.microsoft.identity.client.*;
-
 public class CallNoSleep extends CordovaPlugin {
 
     private PowerManager.WakeLock wakeLock;
-    private ISingleAccountPublicClientApplication mSingleAccountApp;
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -34,9 +30,6 @@ public class CallNoSleep extends CordovaPlugin {
             return true;
         } else if (action.equals("getAppInfo")) {
             this.getAppInfo(callbackContext);
-            return true;
-        } else if (action.equals("loginWithMicrosoft")) {
-            this.loginWithMicrosoft(callbackContext);
             return true;
         }
         return false;
@@ -98,45 +91,5 @@ public class CallNoSleep extends CordovaPlugin {
         } catch (JSONException e) {
             callbackContext.error("Failed to create JSON object: " + e.getMessage());
         }
-    }
-
-    private void loginWithMicrosoft(CallbackContext callbackContext) {
-        PublicClientApplication.createSingleAccountPublicClientApplication(this.cordova.getActivity().getApplicationContext(),
-            R.raw.auth_config_single_account,
-            new IPublicClientApplication.ISingleAccountApplicationCreatedListener() {
-                @Override
-                public void onCreated(ISingleAccountPublicClientApplication application) {
-                    mSingleAccountApp = application;
-                    mSingleAccountApp.signIn(this.cordova.getActivity(), null, getScopes(), getAuthInteractiveCallback(callbackContext));
-                }
-
-                @Override
-                public void onError(MsalException exception) {
-                    callbackContext.error("Failed to create MSAL application: " + exception.getMessage());
-                }
-            });
-    }
-
-    private String[] getScopes() {
-        return new String[]{"User.Read"};
-    }
-
-    private AuthenticationCallback getAuthInteractiveCallback(CallbackContext callbackContext) {
-        return new AuthenticationCallback() {
-            @Override
-            public void onSuccess(IAuthenticationResult authenticationResult) {
-                callbackContext.success(authenticationResult.getAccount().getUsername());
-            }
-
-            @Override
-            public void onError(MsalException exception) {
-                callbackContext.error("Authentication failed: " + exception.getMessage());
-            }
-
-            @Override
-            public void onCancel() {
-                callbackContext.error("User cancelled the login process");
-            }
-        };
     }
 }

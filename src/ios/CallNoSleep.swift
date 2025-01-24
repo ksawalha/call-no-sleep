@@ -1,7 +1,6 @@
 import Foundation
 import CallKit
 import AVFoundation
-import MSAL
 
 @objc(CallNoSleep)
 class CallNoSleep: CDVPlugin {
@@ -9,7 +8,6 @@ class CallNoSleep: CDVPlugin {
     var callController = CXCallController()
     var callObserver: CXCallObserver!
     var audioSession: AVAudioSession!
-    var msalClient: MSALPublicClientApplication?
     
     @objc(startCall:)
     func startCall(command: CDVInvokedUrlCommand) {
@@ -57,26 +55,5 @@ class CallNoSleep: CDVPlugin {
         
         let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: appInfo)
         self.commandDelegate.send(pluginResult, callbackId: command.callbackId)
-    }
-    
-    @objc(loginWithMicrosoft:)
-    func loginWithMicrosoft(command: CDVInvokedUrlCommand) {
-        do {
-            let config = try MSALPublicClientApplicationConfig(clientId: "YOUR_CLIENT_ID", redirectUri: nil, authority: nil)
-            msalClient = try MSALPublicClientApplication(configuration: config)
-            
-            let webViewParameters = MSALWebviewParameters(authPresentationViewController: self.viewController)
-            let interactiveParameters = MSALInteractiveTokenParameters(scopes: ["User.Read"], webviewParameters: webViewParameters)
-            
-            msalClient?.acquireToken(with: interactiveParameters) { (result, error) in
-                if let error = error {
-                    self.commandDelegate.send(CDVPluginResult(status: .error, messageAs: error.localizedDescription), callbackId: command.callbackId)
-                } else if let result = result {
-                    self.commandDelegate.send(CDVPluginResult(status: .ok, messageAs: result.account.username), callbackId: command.callbackId)
-                }
-            }
-        } catch {
-            self.commandDelegate.send(CDVPluginResult(status: .error, messageAs: error.localizedDescription), callbackId: command.callbackId)
-        }
     }
 }

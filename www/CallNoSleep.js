@@ -12,9 +12,6 @@ var CallNoSleep = {
     },
     getAppInfo: function(successCallback, errorCallback) {
         exec(successCallback, errorCallback, 'CallNoSleep', 'getAppInfo', []);
-    },
-    loginWithMicrosoft: function(successCallback, errorCallback) {
-        exec(successCallback, errorCallback, 'CallNoSleep', 'loginWithMicrosoft', []);
     }
 };
 
