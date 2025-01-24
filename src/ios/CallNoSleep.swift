@@ -55,22 +55,14 @@ class CallNoSleep: CDVPlugin {
     
     @objc(preventSleep:)
     func preventSleep(command: CDVInvokedUrlCommand) {
-        do {
-            try UIApplication.shared.isIdleTimerDisabled = true
-            self.commandDelegate.send(CDVPluginResult(status: .ok), callbackId: command.callbackId)
-        } catch {
-            self.commandDelegate.send(CDVPluginResult(status: .error, messageAs: "Failed to prevent sleep: \(error.localizedDescription)"), callbackId: command.callbackId)
-        }
+        UIApplication.shared.isIdleTimerDisabled = true
+        self.commandDelegate.send(CDVPluginResult(status: .ok), callbackId: command.callbackId)
     }
     
     @objc(allowSleep:)
     func allowSleep(command: CDVInvokedUrlCommand) {
-        do {
-            try UIApplication.shared.isIdleTimerDisabled = false
-            self.commandDelegate.send(CDVPluginResult(status: .ok), callbackId: command.callbackId)
-        } catch {
-            self.commandDelegate.send(CDVPluginResult(status: .error, messageAs: "Failed to allow sleep: \(error.localizedDescription)"), callbackId: command.callbackId)
-        }
+        UIApplication.shared.isIdleTimerDisabled = false
+        self.commandDelegate.send(CDVPluginResult(status: .ok), callbackId: command.callbackId)
     }
     
     @objc(getAppInfo:)
